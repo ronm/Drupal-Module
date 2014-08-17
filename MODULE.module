@@ -1,0 +1,88 @@
+<?php 
+/**
+ * Implements hook_permission.
+*/
+/*function hook_permission() {
+	return array(
+		'' => array(
+			'title' => t(''),
+		)  
+	);
+}*/
+
+/**
+ * Implements hook_admin.
+*/
+/*function hook_admin() {
+	$form = array();
+	
+	return system_settings_form($form);
+}*/
+
+/**
+ * Implements hook_theme.
+*/
+/*function hook_theme($existing, $type, $theme, $path) {
+	$themes = array( 
+		'' => array( 'template' => '', 'path' => drupal_get_path('module', '').'/layouts', ),
+	);
+
+	return $themes;
+}*/
+
+/**
+ * Implements hook_menu.
+*/
+/*function hook_menu() {
+
+  	$items = array();
+
+  	$items['''] = array(
+		'title' => '',
+		'description' => '',
+		'page callback' => 'drupal_get_form',
+		'page arguments' => array(''),
+		'access arguments' => array(''),
+	);
+	
+	return $items;
+}*/
+
+/**
+ * Implements hook_block_info.
+*/
+/*function hook_block_info() {
+	$blocks = array();
+	$blocks[''] = array( 'info' => t(''), );
+	
+	$blocks = array();
+	$blocks[''] = array( 'info' => t(''), );
+		
+	return $blocks;
+}*/
+/**
+ * Implements hook_block_view.
+*/
+/*function hook_block_view($delta = '') {
+	if ( $delta ) {
+		$block['subject'] = '';
+		$block['content'] = '';
+	}
+	
+	return $block;
+}*/
+
+/**
+ * Implements hook_preprocess_html.
+**/
+//function hook_preprocess_html(&$html) {}
+
+/**
+ * Implements hook_preprocess_page.
+**/
+//function hook_preprocess_page(&$page) {}
+
+/**
+ * Implements hook_BASE_FORM_ID_form_alter.
+**/
+//function hook_form_node_form_alter(&$form, &$form_state, $form_id) {}

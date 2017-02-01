@@ -2,11 +2,16 @@
 /**
  * Implements hook_permission.
 */
-/*function hook_permission() {
+/*function HOOK_permission() {
 	return array(
-		'' => array(
-			'title' => t(''),
-		)  
+		'view MY_MODULE_NAME' => array(
+            'title' => t('View MY_MODULE_NAME'),
+            'description' => t('Allow certain roles to view MY_MODULE_NAME without control of the settings.'),
+        ),
+        'administer MY_MODULE_NAME' => array(
+            'title' => t('Administer MY_MODULE_NAME'),
+            'description' => t('Add, delete and edit the settings for MY_MODULE_NAME.'),
+        ),  
 	);
 }*/
 
@@ -23,11 +28,12 @@
  * Implements hook_theme.
 */
 /*function hook_theme($existing, $type, $theme, $path) {
-	$themes = array( 
-		'' => array( 'template' => '', 'path' => drupal_get_path('module', '').'/layouts', ),
-	);
-
-	return $themes;
+	return array(
+        'my_custom_template' => array(
+            // template file name will be custom-page.tpl.php
+            'template' => 'custom-page',
+        ),
+    );
 }*/
 
 /**
@@ -38,39 +44,125 @@
   	$items = array();
 
   	$items['''] = array(
-		'title' => '',
-		'description' => '',
-		'page callback' => 'drupal_get_form',
-		'page arguments' => array(''),
-		'access arguments' => array(''),
+        'title' => 'MY MODULE NAME',
+        'description' => 'Configuration of MY MODULE NAME.',
+        'access arguments' => array('administer users'),
+        //'page callback' => 'drupal_get_form',
+        //'page arguments' => array('MY_MODULE_NAME_form'),  // Pass the function to pass to Form API
+        'type' => MENU_NORMAL_ITEM,
 	);
 	
 	return $items;
 }*/
 
-/**
- * Implements hook_block_info.
+
+/*
+ * Returns custom content to Drupal
+ */
+/*
+function my_page_function(){
+    // Call theme() function, so that Drupal includes the custom-page.tpl.php template
+    return theme('my_custom_template');
+}
 */
-/*function hook_block_info() {
-	$blocks = array();
-	$blocks[''] = array( 'info' => t(''), );
-	
-	$blocks = array();
-	$blocks[''] = array( 'info' => t(''), );
-		
+
+
+/*
+ * Implementation of hook_block_info().
+ */
+/*
+function HOOK_block_info() {
+	// This example comes from node.module.
+	$blocks['syndicate'] = array(
+    	'info' => t('Syndicate'),
+		'cache' => DRUPAL_NO_CACHE
+	);
+
+	$blocks['recent'] = array(
+    	'info' => t('Recent content'),
+		// DRUPAL_CACHE_PER_ROLE will be assumed.
+	);
+
 	return $blocks;
-}*/
-/**
- * Implements hook_block_view.
+}
 */
-/*function hook_block_view($delta = '') {
-	if ( $delta ) {
-		$block['subject'] = '';
-		$block['content'] = '';
+
+
+
+/*
+ * Implementation of hook_block_configure().
+ */
+/*
+function HOOK_block_configure($delta = '') {
+	// This example comes from node.module.
+	$form = array();
+	if ($delta == 'recent') {
+    	$form['node_recent_block_count'] = array(
+			'#type' => 'select',
+			'#title' => t('Number of recent content items to display'),
+			'#default_value' => variable_get('node_recent_block_count', 10),
+			'#options' => drupal_map_assoc(array(2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30)),
+		);
 	}
-	
+	return $form;
+}
+*/
+
+
+
+/*
+ * Implementation of hook_block_save().
+ */
+/*
+function HOOK_block_save($delta = '', $edit = array()) {
+  // This example comes from node.module.
+  if ($delta == 'recent') {
+    variable_set('node_recent_block_count', $edit['node_recent_block_count']);
+  }
+}
+*/
+
+
+
+/*
+ * Implementation of hook_block_view().
+ */
+/*
+function HOOK_block_view($delta = '') {
+	// This example is adapted from node.module.
+	$block = array();
+
+	switch ($delta) {
+    	case 'syndicate':
+			$block['subject'] = t('Syndicate');
+			$block['content'] = array(
+				'#theme' => 'feed_icon',
+				'#url' => 'rss.xml',
+				'#title' => t('Syndicate'),
+			);
+			break;
+
+		case 'recent':
+			if (user_access('access content')) {
+				$block['subject'] = t('Recent content');
+				if ($nodes = node_get_recent(variable_get('node_recent_block_count', 10))) {
+					$block['content'] = array(
+						'#theme' => 'node_recent_block',
+						'#nodes' => $nodes,
+					);
+				} else {
+					$block['content'] = t('No content available.');
+				}
+			}
+			
+			break;
+	}
+		
 	return $block;
-}*/
+}
+*/
+
+
 
 /**
  * Implements hook_preprocess_html.
@@ -81,6 +173,18 @@
  * Implements hook_preprocess_page.
 **/
 //function hook_preprocess_page(&$page) {}
+
+/*
+ * Implementation of hook_form_alter()
+ */
+/*
+function HOOK_form_alter(&$form, &$form_state, $form_id){
+    // target a single form
+    if($form_id == "page_node_form"){
+        $form['title']['#title'] = t('New Form Title');
+    }
+}
+*/
 
 /**
  * Implements hook_BASE_FORM_ID_form_alter.
